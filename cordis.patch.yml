@@ -1,0 +1,72 @@
+# dsh-privacy-shield bundle patch：把 shield 插件挂进 profile。
+#
+# 这里列出的每个键都是插件 Config 字段（见 lib/config.js 的 resolveConfig）。
+# 采用"宽容读取 + 严格默认"：写错的值会被降级为安全默认值并在 /shield status 里提示，
+# 不会因为一个拼写错误让整个 profile 起不来。
+#
+# 想让配置生效：改完重启 profile（或重新安装本 bundle）。
+- insert:
+    - id: shield
+      name: dsh-privacy-shield
+      config:
+        # 总开关：false 时插件不挂任何东西（投影、命令、工具全部不注册）。
+        enabled: true
+        # enforce：真正改写"模型可见面"（推荐）；observe：只统计与自检、绝不改写。
+        mode: enforce
+        # 占位符哈希：hmac=HMAC-SHA256（默认，密钥本地文件，不可枚举反推）；
+        # legacy=FNV-1a（v0.2.x 格式，可枚举反推，仅建议过渡）。
+        placeholderHash: hmac
+        # 实体敏感度下限（high/medium/low）。仅在下面不显式配置 entities 时生效：
+        # 例如 medium = 保留 high+medium 级实体，去掉 cn-org/cn-project 等 low 级。
+        minLevel: low
+        # 中文地址脱敏粒度：full=到门牌（默认）；street=只到街道（保留省市区）。
+        addressLevel: full
+        # 停用的词表标签（对应 /shield terms label off <LABEL>）。一般留空。
+        disabledLabels: []
+        # 启用的实体类型；完整取值见 README「实体类型」一节。
+        # 省略本项 = 默认 26 类（受 minLevel 过滤）；显式列出 = 以列表为准（整体替换默认集合）。
+        # entities:
+        #   - phone-cn
+        #   - email
+        # 内联专有名词词表，每行 "词条" 或 "词条 @分类"。
+        # 例：["天枢计划 @project", "某某科技有限公司 @company", "HT-2024-001 @id"]
+        terms: []
+        # 词表文件路径（相对路径落在 $DSH_HOME/shield/ 下）。留空 = 不读。
+        termsFile: ""
+        # 规则包路径（/shield export 的产物）。留空 = 不读。
+        rulesPack: ""
+        # 覆盖哪些 surface 消息类型（决定"模型可见面"的哪几类被替换）。
+        # 全部 true = 完整覆盖。若系统提示词里的路径/名称被替换会影响模型推理，
+        # 可把 system 关掉，只覆盖对话与工具结果。
+        surfaces:
+          system: true
+          developer: true
+          user: true
+          assistant: true
+          tool: true
+        # 图片/文件块策略：pass=放行（默认）。文本类文件块的内容仍会脱敏；
+        # 二进制与图片不做内容识别（本插件不负责图片内容的隐私保护）。
+        mediaPolicy: pass
+        # 出境审计：每次模型请求都统计占位符数量并复核明文残留（只记计数，绝不含明文）。
+        audit:
+          # 是否把每次出境请求的审计记录追加到 JSONL 文件（默认开启）。
+          jsonl: true
+          # 审计文件路径（相对路径落在 $DSH_HOME/shield/ 下）。留空 = 默认 audit.jsonl。
+          jsonlPath: ""
+          # 审计保留天数：启动时清理超出行数；0 = 不清理。文件超 20MB 时跳过清理。
+          retentionDays: 30
+          # 明文残留复核：full=完整复核（默认）| sample=大请求跳过 | off=不复核。
+          verifyOutbound: full
+          # 复核的长度上限（字符）；超过则跳过复核，避免拖慢大请求。
+          maxVerifyChars: 2000000
+        # 出境请求里仍有明文残留时的动作：warn=只在状态里告警（默认）；block=阻断该次请求。
+        onUnmaskable: warn
+        # 是否注册消息投影。这是"云端只见占位符"的核心机制。
+        # 关掉它 = 只审计不改写（等价于 observe 但连检测开销也省掉）。
+        registerProjections: true
+        # 是否注册 /shield 命令。
+        registerCommand: true
+        # 是否注册 shield_scan 工具。
+        registerTools: true
+        # 还原表最多保留多少条（超出后逐出最旧条目）。
+        maxVaultEntries: 5000
