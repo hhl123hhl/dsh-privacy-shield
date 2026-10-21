@@ -9,7 +9,7 @@
 // 打包白名单见下方 INCLUDE；release/ 自身绝不进入产物。zip 用 store（不压缩，纯文本包体积无关痛痒），
 // tar.gz 走 zlib。两个归档都不依赖外部命令，Windows / Linux / macOS 均可直接运行。
 
-import { cpSync, mkdirSync, readFileSync, readdirSync, rmSync, statSync, writeFileSync } from 'node:fs'
+import { copyFileSync, existsSync, mkdirSync, readFileSync, readdirSync, rmSync, statSync, writeFileSync } from 'node:fs'
 import { createHash } from 'node:crypto'
 import { gzipSync } from 'node:zlib'
 import { basename, dirname, join, relative, sep } from 'node:path'
@@ -41,6 +41,24 @@ const INCLUDE = [
 
 // ---------- 1. 组装可分发目录 ----------
 
+/**
+ * 递归复制目录/文件。
+ *
+ * 不用 `fs.cpSync(..., { recursive: true })`：Node v25.4.0（Windows）对本文档仓库
+ * 的 `lib/` 目录会直接以 0xC0000409（STATUS_STACK_BUFFER_OVERRUN）崩溃，
+ * 且不抛异常、不可 catch——实测 `lib` 单目录必现，`index.js` 单文件正常。
+ * 手写遍历 + copyFileSync 无此问题，行为也更可预测。
+ */
+function copyTree(src, dest) {
+  const stat = statSync(src)
+  if (stat.isDirectory()) {
+    mkdirSync(dest, { recursive: true })
+    for (const entry of readdirSync(src)) copyTree(join(src, entry), join(dest, entry))
+  } else {
+    copyFileSync(src, dest)
+  }
+}
+
 rmSync(OUT, { recursive: true, force: true })
 mkdirSync(DIR, { recursive: true })
 
@@ -65,7 +83,7 @@ for (const item of INCLUDE) {
     console.warn(`警告：白名单里的 ${item} 不存在，已跳过`)
     continue
   }
-  cpSync(target, join(DIR, item), { recursive: true })
+  copyTree(target, join(DIR, item))
   collectFiles(target, `/${item}`, files)
 }
 files.sort()
@@ -227,4 +245,8 @@ for (const path of [zipPath, tgzPath]) {
   const sha = createHash('sha256').update(readFileSync(path)).digest('hex').slice(0, 16)
   console.log(`${basename(path)}  ${(statSync(path).size / 1024).toFixed(1)} KiB  sha256:${sha}`)
 }
+// 发布说明放在 docs/（唯一副本、进版本库），构建时复制到 release/ 根，便于直接作为 GitHub Release 正文。
+const releaseNotes = join(ROOT, 'docs', `RELEASE-NOTES-v${VERSION}.md`)
+if (existsSync(releaseNotes)) copyFileSync(releaseNotes, join(OUT, `RELEASE-NOTES-v${VERSION}.md`))
+
 console.log('完成。分发：发送 .zip 或 .tgz，对方解压后 install_bundle 指向解压出的 dsh-privacy-shield 目录。')

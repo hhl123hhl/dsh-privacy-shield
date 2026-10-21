@@ -1,6 +1,6 @@
 {
   "name": "dsh-privacy-shield",
-  "version": "1.0.0",
+  "version": "1.0.1",
   "type": "module",
   "license": "MIT",
   "description": "Local-first privacy shield for DeepSeek Harness: keep plaintext local, send only placeholders to the model, restore real values in the transcript.",
@@ -62,6 +62,6 @@
   "dependencies": {},
   "scripts": {
     "test": "node --test \"test/*.test.mjs\"",
-    "dist": "node tools/build-dist.mjs"
+    "dist": "node tools/sync-client.mjs && node tools/build-dist.mjs"
   }
 }

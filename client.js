@@ -33,7 +33,7 @@ window.__ModuleLoader__.load({
     // 请勿手改：改文案改 locale/*.json，改协议标签改 lib/constants.js，改版本号改 package.json，然后重跑生成。
 
     /** 编译期版本（= package.json version）：用于和 host status.version 比对，提示"需重启生效"。 */
-    const CLIENT_VERSION = "1.0.0";
+    const CLIENT_VERSION = "1.0.1";
 
     /** 文案表（与 locale/*.json 的 status 段同源；中文为默认语言）。 */
     const COPY = {
