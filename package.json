@@ -1,0 +1,67 @@
+{
+  "name": "dsh-privacy-shield",
+  "version": "1.0.0",
+  "type": "module",
+  "license": "MIT",
+  "description": "Local-first privacy shield for DeepSeek Harness: keep plaintext local, send only placeholders to the model, restore real values in the transcript.",
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/hhl123hhl/dsh-privacy-shield.git"
+  },
+  "homepage": "https://github.com/hhl123hhl/dsh-privacy-shield#readme",
+  "bugs": {
+    "url": "https://github.com/hhl123hhl/dsh-privacy-shield/issues"
+  },
+  "keywords": [
+    "dsh-plugin",
+    "deepseek-harness",
+    "privacy",
+    "pii",
+    "masking",
+    "redaction",
+    "data-protection"
+  ],
+  "engines": {
+    "node": ">=18"
+  },
+  "files": [
+    "index.js",
+    "client.js",
+    "cordis.patch.yml",
+    "icon.svg",
+    "lib",
+    "locale",
+    "docs",
+    "README.md",
+    "README.zh.md",
+    "LICENSE"
+  ],
+  "exports": {
+    ".": "./index.js",
+    "./package.json": "./package.json",
+    "./client": "./client.js",
+    "./locale/*.json": "./locale/*.json"
+  },
+  "icon": "./icon.svg",
+  "meta": {
+    "title": "Shield 隐私护盾",
+    "description": "本地脱敏 / 云端只见占位符 / 展示层还原真值"
+  },
+  "dsh": {
+    "bundle": {
+      "patch": "./cordis.patch.yml"
+    },
+    "client": {
+      "platform": "web",
+      "immediately": true,
+      "inject": [
+        "@deepseek-ai/dsh-client-ui-conversation"
+      ]
+    }
+  },
+  "dependencies": {},
+  "scripts": {
+    "test": "node --test \"test/*.test.mjs\"",
+    "dist": "node tools/build-dist.mjs"
+  }
+}
