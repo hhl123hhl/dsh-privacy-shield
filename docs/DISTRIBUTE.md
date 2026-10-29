@@ -111,7 +111,7 @@ dsh plugin --profile desktop add github:hhl123hhl/dsh-privacy-shield
       config:
         mode: enforce
         terms:
-          - "天枢计划 @project"
+          - "蓝鸟计划 @project"
           - "昆仑数据库 @company"
 ```
 

@@ -101,6 +101,7 @@
     "cn-address": "Address",
     "cn-person": "Person name",
     "cn-id": "ID number",
+    "money": "Amount",
     "term": "Custom term",
     "social-insurance": "Social insurance",
     "housing-fund": "Housing fund",
@@ -128,6 +129,7 @@
     "IDNO": "ID number",
     "ADDR": "Address",
     "PERSON": "Person",
+    "MONEY": "Amount",
     "TERM": "Other"
   },
   "candidateSources": {

@@ -1,6 +1,6 @@
 {
   "name": "dsh-privacy-shield",
-  "version": "1.0.1",
+  "version": "1.3.0",
   "type": "module",
   "license": "MIT",
   "description": "Local-first privacy shield for DeepSeek Harness: keep plaintext local, send only placeholders to the model, restore real values in the transcript.",

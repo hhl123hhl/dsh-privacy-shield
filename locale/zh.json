@@ -101,6 +101,7 @@
     "cn-address": "地址",
     "cn-person": "人名",
     "cn-id": "编号",
+    "money": "金额",
     "term": "自定义词条",
     "social-insurance": "社保号",
     "housing-fund": "公积金号",
@@ -128,6 +129,7 @@
     "IDNO": "编号",
     "ADDR": "地址",
     "PERSON": "人名",
+    "MONEY": "金额",
     "TERM": "其他"
   },
   "candidateSources": {

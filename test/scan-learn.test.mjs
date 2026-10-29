@@ -27,7 +27,7 @@ const ENGINE = () => new MaskEngine({ entities: ['phone-cn', 'id-card-cn'] })
 test('extractText：txt 读取；pdf 给出明确提示；二进制拒绝', () => {
   const dir = tempDir()
   const txt = join(dir, 'doc.txt')
-  writeFileSync(txt, '甲公司承接了天枢项目，编号 HT-2024-001，电话 13800138000')
+  writeFileSync(txt, '甲公司承接了蓝鸟项目，编号 HT-2024-001，电话 13800138000')
   assert.match(extractText(txt), /甲公司/u)
   const pdf = join(dir, 'doc.pdf')
   writeFileSync(pdf, '%PDF-1.4 fake')
@@ -66,11 +66,11 @@ test('miniUnzip + extractText：docx 抽出正文文本', () => {
 // ---------- extractCandidates ----------
 
 test('extractCandidates：后缀词典 + 编号模式；已覆盖片段被剔除', () => {
-  const text = '甲公司承接天枢项目与银河平台，编号 HT-2024-001，电话 13800138000，又见甲公司。'
+  const text = '甲公司承接蓝鸟项目与银河平台，编号 HT-2024-001，电话 13800138000，又见甲公司。'
   const candidates = extractCandidates(text, ENGINE())
   const byValue = new Map(candidates.map((c) => [c.value, c]))
   assert.ok(byValue.has('甲公司'), '应有 甲公司')
-  assert.ok(byValue.has('天枢项目'), '应有 天枢项目')
+  assert.ok(byValue.has('蓝鸟项目'), '应有 蓝鸟项目')
   assert.ok(byValue.has('HT-2024-001'), '应有 编号')
   assert.ok(!byValue.has('13800138000'), '引擎已覆盖的手机号不应入候选')
   assert.equal(byValue.get('甲公司').count, 2)

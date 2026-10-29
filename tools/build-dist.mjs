@@ -5,6 +5,9 @@
 //   release/dsh-privacy-shield/            可直接 install_bundle 的目录
 //   release/dsh-privacy-shield-<version>.zip
 //   release/dsh-privacy-shield-<version>.tgz
+//   release/dsh-privacy-shield.zip   （固定名副本，字节与版本名一致——插件市场 awesome-dsh-plugin
+//   release/dsh-privacy-shield.tgz     的条目用 releases/latest/download/<固定名> 永久链接，
+//                                      每次发版必须把这两个固定名附件上传到 Release，否则市场下载断）
 //
 // 打包白名单见下方 INCLUDE；release/ 自身绝不进入产物。zip 用 store（不压缩，纯文本包体积无关痛痒），
 // tar.gz 走 zlib。两个归档都不依赖外部命令，Windows / Linux / macOS 均可直接运行。
@@ -241,7 +244,13 @@ const tgzPath = join(OUT, `dsh-privacy-shield-${VERSION}.tgz`)
 writeFileSync(zipPath, buildZip(zipEntries))
 writeFileSync(tgzPath, buildTarGz(tarEntries))
 
-for (const path of [zipPath, tgzPath]) {
+// 固定名副本（插件市场 latest/download 永久链接依赖固定名附件，字节与版本名一致）
+const zipFixedPath = join(OUT, `dsh-privacy-shield.zip`)
+const tgzFixedPath = join(OUT, `dsh-privacy-shield.tgz`)
+copyFileSync(zipPath, zipFixedPath)
+copyFileSync(tgzPath, tgzFixedPath)
+
+for (const path of [zipPath, tgzPath, zipFixedPath, tgzFixedPath]) {
   const sha = createHash('sha256').update(readFileSync(path)).digest('hex').slice(0, 16)
   console.log(`${basename(path)}  ${(statSync(path).size / 1024).toFixed(1)} KiB  sha256:${sha}`)
 }

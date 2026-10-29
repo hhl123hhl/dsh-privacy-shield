@@ -29,7 +29,7 @@
         #   - phone-cn
         #   - email
         # 内联专有名词词表，每行 "词条" 或 "词条 @分类"。
-        # 例：["天枢计划 @project", "某某科技有限公司 @company", "HT-2024-001 @id"]
+        # 例：["蓝鸟计划 @project", "某某科技有限公司 @company", "HT-2024-001 @id"]
         terms: []
         # 词表文件路径（相对路径落在 $DSH_HOME/shield/ 下）。留空 = 不读。
         termsFile: ""

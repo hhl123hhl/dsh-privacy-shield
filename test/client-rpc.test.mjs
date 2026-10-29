@@ -102,7 +102,7 @@ test('dispatcher：scanDoc 写入候选池 + adopt 采纳', () => {
   const dispatch = createRpcDispatcher(rt, rt.config, () => '')
   const dir = tempDir()
   const path = join(dir, 'doc.txt')
-  writeFileSync(path, '甲公司承建天枢项目，编号 HT-2024-001。')
+  writeFileSync(path, '甲公司承建蓝鸟项目，编号 HT-2024-001。')
   const scanned = dispatch('scanDoc', { path })
   assert.equal(scanned.ok, true)
   assert.ok(scanned.candidates.length >= 2)

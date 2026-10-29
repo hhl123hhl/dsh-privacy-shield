@@ -634,7 +634,7 @@ terms:
   - 蓝鸟计划 @project
   - Project Bluebird @project
   - "# 系统 / systems"
-  - 天枢核心交易系统 @system
+  - 蓝鸟核心交易系统 @system
   - "# 编号 / identifiers"
   - HT-2024-001 @id
   - 保密协议 2024-017 @id
@@ -804,6 +804,7 @@ consistent across re-derivation (cold restore, fork, replay).
 | `cn-address` | `ADDR` |
 | `cn-person` | `PERSON` |
 | `cn-id` | `IDNO` |
+| `money` | `MONEY` — **not** in `DEFAULT_ENTITIES`; amounts stay plaintext so the model can compute. Add `money` to `entities` to mask them. / 默认不在 `DEFAULT_ENTITIES` 里：金额保持明文以便模型算数与统计；需要遮蔽时把 `money` 加进 `entities`。 |
 | `term` | `TERM`, or the label from the term's category / 或词条分类对应的标签 |
 
 ---
@@ -1036,7 +1037,7 @@ A full `cordis.patch.yml` shaped for production use.
           - "# 项目 / projects"
           - 蓝鸟计划 @project
           - "# 系统 / systems"
-          - 天枢核心交易系统 @system
+          - 蓝鸟核心交易系统 @system
           - "# 编号 / identifiers"
           - HT-2024-001 @id
 

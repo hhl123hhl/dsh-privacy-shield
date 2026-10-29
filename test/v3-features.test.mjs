@@ -29,11 +29,11 @@ test('正则词表项参与脱敏，非法正则被跳过', () => {
 })
 
 test('字面词条与正则词条可共存，重叠由引擎消解', () => {
-  const engine = new MaskEngine({ entities: ALL, terms: ['天枢平台 @system', 're:天枢\\w*'] })
-  const { text } = engine.mask('天枢平台上线了')
+  const engine = new MaskEngine({ entities: ALL, terms: ['蓝鸟平台 @system', 're:蓝鸟\\w*'] })
+  const { text } = engine.mask('蓝鸟平台上线了')
   // 字面长词条优先，整段被替换一次。
   assert.equal((text.match(/<SYS_[0-9a-f]{8}>/gu) ?? []).length, 1)
-  assert.ok(!text.includes('天枢'))
+  assert.ok(!text.includes('蓝鸟'))
 })
 
 // ---------- 标签治理 ----------

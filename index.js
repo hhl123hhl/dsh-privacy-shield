@@ -621,7 +621,10 @@ function formatCandidates(candidates, headline) {
     lines.push('  （没有抽到候选：文档可能太短，或引擎已能覆盖其中片段）')
   }
   for (const [index, item] of candidates.slice(0, 50).entries()) {
-    lines.push(`  ${String(index + 1).padStart(3)}. ${item.value}　×${item.count}　建议 @${item.label}　[${item.source}]`)
+    const evidence = Array.isArray(item.evidence) && item.evidence.length > 0
+      ? `　证据：${item.evidence.join('；')}`
+      : ''
+    lines.push(`  ${String(index + 1).padStart(3)}. ${item.value}　×${item.count}　建议 @${item.label}　[${item.source}]${evidence}`)
   }
   if (candidates.length > 50) lines.push(`  …其余 ${candidates.length - 50} 条省略（adopt all 可全部采纳）`)
   lines.push('确认入词表：/shield terms adopt <序号…> 或 /shield terms adopt all')

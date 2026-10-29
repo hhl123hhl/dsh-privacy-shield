@@ -58,8 +58,8 @@ test('引导词不进入机构名', () => {
 })
 
 test('项目名/系统名：引导词 + 冒号', () => {
-  const proj = engine().mask('项目名称：天枢计划，负责人：李四')
-  assert.ok(proj.hits.some((hit) => hit.entity === 'cn-project' && hit.value === '天枢计划'))
+  const proj = engine().mask('项目名称：蓝鸟计划，负责人：李四')
+  assert.ok(proj.hits.some((hit) => hit.entity === 'cn-project' && hit.value === '蓝鸟计划'))
   const sys = engine().mask('系统名称：XX核心交易系统')
   assert.ok(sys.hits.some((hit) => hit.entity === 'cn-system' && hit.value === 'XX核心交易系统'))
 })

@@ -33,7 +33,7 @@ window.__ModuleLoader__.load({
     // 请勿手改：改文案改 locale/*.json，改协议标签改 lib/constants.js，改版本号改 package.json，然后重跑生成。
 
     /** 编译期版本（= package.json version）：用于和 host status.version 比对，提示"需重启生效"。 */
-    const CLIENT_VERSION = "1.0.1";
+    const CLIENT_VERSION = "1.3.0";
 
     /** 文案表（与 locale/*.json 的 status 段同源；中文为默认语言）。 */
     const COPY = {
@@ -219,6 +219,7 @@ window.__ModuleLoader__.load({
         "cn-address": "地址",
         "cn-person": "人名",
         "cn-id": "编号",
+        "money": "金额",
         "term": "自定义词条",
         "social-insurance": "社保号",
         "housing-fund": "公积金号",
@@ -249,6 +250,7 @@ window.__ModuleLoader__.load({
         "cn-address": "Address",
         "cn-person": "Person name",
         "cn-id": "ID number",
+        "money": "Amount",
         "term": "Custom term",
         "social-insurance": "Social insurance",
         "housing-fund": "Housing fund",
@@ -300,6 +302,7 @@ window.__ModuleLoader__.load({
         "IDNO": "编号",
         "ADDR": "地址",
         "PERSON": "人名",
+        "MONEY": "金额",
         "TERM": "其他"
       },
       en: {
@@ -309,6 +312,7 @@ window.__ModuleLoader__.load({
         "IDNO": "ID number",
         "ADDR": "Address",
         "PERSON": "Person",
+        "MONEY": "Amount",
         "TERM": "Other"
       },
     };
@@ -350,6 +354,7 @@ window.__ModuleLoader__.load({
       "ADDR": "cn-address",
       "PERSON": "cn-person",
       "IDNO": "cn-id",
+      "MONEY": "money",
       "TERM": "term",
       "SOCIAL": "social-insurance",
       "HOUSING": "housing-fund",
